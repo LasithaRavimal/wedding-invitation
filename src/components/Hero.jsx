@@ -51,7 +51,7 @@ export default function Hero() {
       <div className="hero-overlay absolute inset-0" />
 
       <div className="relative z-10 max-w-3xl mx-auto animate-fadeIn">
-        <div className="glass-card rounded-[2rem] px-6 py-10 md:px-12 md:py-14 border border-[var(--color-gold)]/40">
+        <div className="px-6 py-10 md:px-12 md:py-14">
           {initials && (
             <p className="font-serif text-[var(--color-gold)] text-4xl mb-3">
               {initials}
