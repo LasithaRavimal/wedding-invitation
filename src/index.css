@@ -1,0 +1,288 @@
+@import "tailwindcss";
+
+/* ============================================================
+   GOOGLE FONTS
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&family=Great+Vibes&display=swap');
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES (Design Tokens)
+   ============================================================ */
+:root {
+  --color-cream:    #FDF8F0;
+  --color-ivory:    #FFFFF0;
+  --color-gold:     #C9A96E;
+  --color-gold-lt:  #E8C98A;
+  --color-rose:     #F4A7B9;
+  --color-rose-dk:  #D4728A;
+  --color-blush:    #FDE8EF;
+  --color-mauve:    #B5748A;
+  --color-charcoal: #3D3028;
+  --color-brown:    #6B4E3D;
+
+  --font-serif:    'Cormorant Garamond', Georgia, serif;
+  --font-sans:     'Montserrat', sans-serif;
+  --font-script:   'Great Vibes', cursive;
+}
+
+/* ============================================================
+   BASE RESET
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   TYPOGRAPHY HELPERS
+   ============================================================ */
+.font-script  { font-family: var(--font-script); }
+.font-serif   { font-family: var(--font-serif); }
+.font-sans    { font-family: var(--font-sans); }
+
+/* ============================================================
+   GOLD GRADIENT
+   ============================================================ */
+.gold-gradient {
+  background: linear-gradient(135deg, #C9A96E 0%, #E8C98A 50%, #C9A96E 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gold-gradient-bg {
+  background: linear-gradient(135deg, #C9A96E 0%, #E8C98A 50%, #C9A96E 100%);
+}
+
+/* ============================================================
+   SECTION DIVIDER (ornamental rule)
+   ============================================================ */
+.ornament-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.ornament-divider::before,
+.ornament-divider::after {
+  content: '';
+  flex: 1;
+  max-width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #C9A96E, transparent);
+}
+
+/* ============================================================
+   FLOATING WHATSAPP BUTTON
+   ============================================================ */
+.whatsapp-float {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+  animation: bounce-subtle 2s infinite;
+}
+
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+/* ============================================================
+   HERO OVERLAY
+   ============================================================ */
+.hero-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(61,48,40,0.35) 0%,
+    rgba(61,48,40,0.55) 60%,
+    rgba(61,48,40,0.75) 100%
+  );
+}
+
+/* ============================================================
+   CARD / GLASS EFFECT
+   ============================================================ */
+.glass-card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(201, 169, 110, 0.3);
+}
+
+/* ============================================================
+   GALLERY HOVER
+   ============================================================ */
+.gallery-item {
+  overflow: hidden;
+  position: relative;
+}
+
+.gallery-item img {
+  transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.08);
+}
+
+.gallery-item .gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(201,169,110,0.6) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+}
+
+/* ============================================================
+   COUNTDOWN CARD
+   ============================================================ */
+.countdown-card {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(8px);
+}
+
+/* ============================================================
+   SCHEDULE TIMELINE
+   ============================================================ */
+.timeline-dot::before {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 12px;
+  background: var(--color-gold);
+  border-radius: 50%;
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ============================================================
+   FORM STYLES
+   ============================================================ */
+.wedding-input {
+  border: 1px solid rgba(201,169,110,0.4);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  background: rgba(255,255,255,0.8);
+  font-family: var(--font-sans);
+  transition: border-color 0.3s, box-shadow 0.3s;
+  outline: none;
+  color: var(--color-charcoal);
+}
+
+.wedding-input:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(201,169,110,0.15);
+}
+
+/* ============================================================
+   BUTTON STYLES
+   ============================================================ */
+.btn-gold {
+  background: linear-gradient(135deg, #C9A96E, #E8C98A, #C9A96E);
+  background-size: 200% auto;
+  color: #3D3028;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-position 0.4s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(201,169,110,0.35);
+}
+
+.btn-gold:hover {
+  background-position: right center;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201,169,110,0.5);
+}
+
+.btn-outline-gold {
+  background: transparent;
+  color: var(--color-gold);
+  border: 1.5px solid var(--color-gold);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-outline-gold:hover {
+  background: var(--color-gold);
+  color: #3D3028;
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   SECTION WRAPPER
+   ============================================================ */
+.section-wrapper {
+  padding: 5rem 1.5rem;
+}
+
+/* ============================================================
+   SCROLL FADE-IN ANIMATION
+   ============================================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1.2s ease forwards;
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-cream); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 3px;
+}
+
+/* ============================================================
+   RESPONSIVE HELPERS
+   ============================================================ */
+@media (max-width: 640px) {
+  .section-wrapper { padding: 3.5rem 1rem; }
+}
