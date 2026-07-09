@@ -1,18 +1,16 @@
 import { useState } from "react";
 import { weddingData } from "../data/weddingData";
 
-// ── RSVP Section ──────────────────────────────────────────────────────────────
-// No database or backend. On submit, opens WhatsApp with a pre-filled message.
-// ─────────────────────────────────────────────────────────────────────────────
 export default function RSVP() {
   const { groomName, brideName, contactNumber } = weddingData;
 
   const [form, setForm] = useState({
-    guestName:  "",
-    attending:  "yes",
+    guestName: "",
+    attending: "yes",
     guestCount: "1",
-    message:    "",
+    message: "",
   });
+
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
@@ -21,52 +19,86 @@ export default function RSVP() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { guestName, attending, guestCount, message } = form;
-    const attendingText = attending === "yes" ? "✅ Yes, I will attend" : "❌ Sorry, I cannot attend";
 
-    let waMsg = `Hello! I am *${guestName}*.\n`;
+    const attendingText =
+      form.attending === "yes"
+        ? "Yes, I will attend"
+        : "Sorry, I cannot attend";
+
+    let waMsg = `Hello! I am ${form.guestName}.\n`;
+    waMsg += `Wedding: ${groomName} & ${brideName}\n`;
     waMsg += `Attendance: ${attendingText}\n`;
-    if (attending === "yes") waMsg += `Number of guests: ${guestCount}\n`;
-    if (message) waMsg += `Message: ${message}`;
 
-    const encoded = encodeURIComponent(waMsg.trim());
-    const url = `https://wa.me/${contactNumber}?text=${encoded}`;
-    window.open(url, "_blank", "noopener,noreferrer");
+    if (form.attending === "yes") {
+      waMsg += `Number of guests: ${form.guestCount}\n`;
+    }
+
+    if (form.message) {
+      waMsg += `Message: ${form.message}`;
+    }
+
+    window.open(
+      `https://wa.me/${contactNumber}?text=${encodeURIComponent(waMsg)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
     setSubmitted(true);
   };
 
   return (
-    <section id="rsvp" className="section-wrapper" style={{ background: "linear-gradient(135deg, #3D3028 0%, #5A3E33 100%)" }}>
-      <div className="max-w-xl mx-auto">
+    <section
+      id="rsvp"
+      className="section-wrapper"
+      style={{
+        background:
+          "linear-gradient(135deg, #2A2018 0%, #4B3328 50%, #2A2018 100%)",
+      }}
+    >
+      <div className="max-w-2xl mx-auto">
         <div className="text-center mb-10">
-          <p className="font-script text-[var(--color-gold-lt)] text-4xl mb-2">Kindly Reply</p>
-          <div className="ornament-divider">
-            <span className="text-[var(--color-gold)] text-xl">✦</span>
-          </div>
-          <h2 className="font-serif text-white font-light text-3xl">RSVP</h2>
-          <p className="font-sans text-white/60 text-sm mt-2">
-            Please confirm your attendance by {new Date(weddingData.weddingDate + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+          <p className="font-script text-[var(--color-gold-lt)] text-5xl mb-2">
+            Kindly Reply
+          </p>
+
+          <h2 className="font-serif text-white text-4xl font-light">
+            RSVP
+          </h2>
+
+          <p className="font-sans text-white/75 text-sm mt-3">
+            Please confirm your attendance via WhatsApp
           </p>
         </div>
 
         {submitted ? (
-          <div className="glass-card rounded-3xl p-10 text-center">
+          <div className="bg-white rounded-[2rem] p-10 text-center shadow-2xl">
             <div className="text-6xl mb-4">💌</div>
-            <h3 className="font-script text-[var(--color-gold)] text-3xl mb-2">Thank You!</h3>
-            <p className="font-serif text-[var(--color-charcoal)] text-lg">
-              Your RSVP has been sent to {groomName} &amp; {brideName} via WhatsApp.
+
+            <h3 className="font-script text-[var(--color-gold)] text-4xl mb-3">
+              Thank You!
+            </h3>
+
+            <p className="font-serif text-[var(--color-charcoal)] text-xl">
+              Your RSVP has been prepared for WhatsApp.
             </p>
-            <button onClick={() => setSubmitted(false)} className="btn-outline-gold mt-6">
+
+            <button
+              onClick={() => setSubmitted(false)}
+              className="btn-outline-gold mt-8"
+            >
               Send Another Response
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="glass-card rounded-3xl p-8 flex flex-col gap-5">
-            {/* Guest Name */}
-            <div>
-              <label className="font-sans text-xs uppercase tracking-widest text-[var(--color-gold)] mb-2 block">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white rounded-[2rem] p-6 md:p-10 shadow-2xl border border-[var(--color-gold)]/30"
+          >
+            <div className="mb-6">
+              <label className="block font-sans text-[var(--color-charcoal)] font-semibold text-sm uppercase tracking-widest mb-2">
                 Your Full Name *
               </label>
+
               <input
                 type="text"
                 name="guestName"
@@ -74,41 +106,55 @@ export default function RSVP() {
                 onChange={handleChange}
                 required
                 placeholder="Enter your name"
-                className="wedding-input"
+                className="w-full rounded-xl border border-[var(--color-gold)]/40 bg-white px-5 py-4 text-[var(--color-charcoal)] text-lg outline-none focus:border-[var(--color-gold)] focus:ring-4 focus:ring-[var(--color-gold)]/20"
               />
             </div>
 
-            {/* Attendance */}
-            <div>
-              <label className="font-sans text-xs uppercase tracking-widest text-[var(--color-gold)] mb-2 block">
-                Will you attend? *
+            <div className="mb-6">
+              <label className="block font-sans text-[var(--color-charcoal)] font-semibold text-sm uppercase tracking-widest mb-3">
+                Will You Attend? *
               </label>
-              <div className="flex gap-3">
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
-                  { value: "yes", label: "✅ Yes, I'll attend", },
-                  { value: "no",  label: "❌ Sorry, I can't",  },
-                ].map(({ value, label }) => (
+                  { value: "yes", label: "Yes, I'll attend", icon: "✅" },
+                  { value: "no", label: "Sorry, I can't", icon: "❌" },
+                ].map((option) => (
                   <label
-                    key={value}
-                    className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-xl border cursor-pointer transition-all font-sans text-sm font-medium
-                      ${form.attending === value
-                        ? "border-[var(--color-gold)] bg-[var(--color-gold)]/10 text-[var(--color-charcoal)]"
-                        : "border-[var(--color-gold)]/30 text-[var(--color-charcoal)]/70"}`}
+                    key={option.value}
+                    className={`flex items-center justify-center gap-3 rounded-xl border px-4 py-4 cursor-pointer transition-all text-base font-semibold ${
+                      form.attending === option.value
+                        ? "bg-[var(--color-gold)] text-[var(--color-charcoal)] border-[var(--color-gold)] shadow-md"
+                        : "bg-white text-[var(--color-charcoal)] border-[var(--color-gold)]/35 hover:bg-[var(--color-cream)]"
+                    }`}
                   >
-                    <input type="radio" name="attending" value={value} checked={form.attending === value} onChange={handleChange} className="sr-only" />
-                    {label}
+                    <input
+                      type="radio"
+                      name="attending"
+                      value={option.value}
+                      checked={form.attending === option.value}
+                      onChange={handleChange}
+                      className="sr-only"
+                    />
+                    <span>{option.icon}</span>
+                    <span>{option.label}</span>
                   </label>
                 ))}
               </div>
             </div>
 
-            {/* Guest Count – only shown if attending */}
             {form.attending === "yes" && (
-              <div>
-                <label className="font-sans text-xs uppercase tracking-widest text-[var(--color-gold)] mb-2 block">
+              <div className="mb-6">
+                <label className="block font-sans text-[var(--color-charcoal)] font-semibold text-sm uppercase tracking-widest mb-2">
                   Number of Guests *
                 </label>
-                <select name="guestCount" value={form.guestCount} onChange={handleChange} className="wedding-input">
+
+                <select
+                  name="guestCount"
+                  value={form.guestCount}
+                  onChange={handleChange}
+                  className="w-full rounded-xl border border-[var(--color-gold)]/40 bg-white px-5 py-4 text-[var(--color-charcoal)] text-lg outline-none focus:border-[var(--color-gold)] focus:ring-4 focus:ring-[var(--color-gold)]/20"
+                >
                   {[1, 2, 3, 4, 5].map((n) => (
                     <option key={n} value={n}>
                       {n} {n === 1 ? "guest" : "guests"}
@@ -118,26 +164,27 @@ export default function RSVP() {
               </div>
             )}
 
-            {/* Optional message */}
-            <div>
-              <label className="font-sans text-xs uppercase tracking-widest text-[var(--color-gold)] mb-2 block">
-                Message (optional)
+            <div className="mb-8">
+              <label className="block font-sans text-[var(--color-charcoal)] font-semibold text-sm uppercase tracking-widest mb-2">
+                Message Optional
               </label>
+
               <textarea
                 name="message"
                 value={form.message}
                 onChange={handleChange}
-                rows={3}
-                placeholder="Write a heartfelt message…"
-                className="wedding-input resize-none"
+                rows={4}
+                placeholder="Write a heartfelt message..."
+                className="w-full rounded-xl border border-[var(--color-gold)]/40 bg-white px-5 py-4 text-[var(--color-charcoal)] text-lg outline-none resize-none focus:border-[var(--color-gold)] focus:ring-4 focus:ring-[var(--color-gold)]/20"
               />
             </div>
 
-            <button type="submit" className="btn-gold w-full text-base py-4">
+            <button type="submit" className="btn-gold w-full py-4 text-sm">
               📲 Send via WhatsApp
             </button>
-            <p className="font-sans text-[var(--color-charcoal)]/50 text-xs text-center">
-              This will open WhatsApp with a pre-filled message.
+
+            <p className="text-center text-[var(--color-brown)] text-sm mt-5">
+              WhatsApp will open with a pre-filled RSVP message.
             </p>
           </form>
         )}
